@@ -1,0 +1,28 @@
+/* src/pages/PurchasedBookPages/PurchasedBookPages.css */
+
+.purchased-books-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  .purchased-books-container h1 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .purchased-books-container p {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .purchased-books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 20px;
+  }
+  

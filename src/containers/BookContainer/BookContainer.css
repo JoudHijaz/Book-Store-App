@@ -1,0 +1,27 @@
+.book-container {
+    padding: 20px;
+}
+.books-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+}
+
+
+.book-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.error-message {
+    color: red;
+    margin: 10px 0;
+}
+@media screen and (max-width: 767px) {
+    .books-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}

@@ -1,0 +1,33 @@
+html {
+    display: block; 
+    width: 100%; 
+}
+
+body {
+    width: 100%; 
+    background-color: #ffd607; 
+    font-family: 'Inter', sans-serif;
+    display: flex; 
+    flex-direction: column;
+    margin: 0; 
+    padding: 0;
+}
+
+#root {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media screen and (max-width: 767px) {
+    body {
+        width: 100%; 
+    }
+    
+    #root {
+        max-width: 100%;
+        padding: 0 10px; 
+    }
+}
