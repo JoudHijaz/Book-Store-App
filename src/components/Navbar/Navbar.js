@@ -1,25 +1,34 @@
-import React, { useState, useContext, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const firstNavLink = useRef(null);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Your search submit logic
-    setIsMenuOpen(false);
+    // Your search submit logic here
   };
 
   return (
     <nav className="navbar">
       <h1>Book Store</h1>
-      <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
-        <Link ref={firstNavLink} to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
-        <Link to="/purchased" onClick={() => setIsMenuOpen(false)}>Purchased Books</Link>
+      <div className="nav-links">
+        <NavLink
+          ref={firstNavLink}
+          to="/"
+          className={({ isActive }) => (isActive ? 'active' : '')}
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/purchased"
+          className={({ isActive }) => (isActive ? 'active' : '')}
+        >
+          Purchased Books
+        </NavLink>
       </div>
       <div className="search-container">
         <form onSubmit={handleSearchSubmit} className="search-form">
