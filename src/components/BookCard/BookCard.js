@@ -5,7 +5,7 @@ import './BookCard.css';
 const BookCard = ({ book }) => {
   const navigate = useNavigate();
   const { volumeInfo } = book;
-  const imageSrc = volumeInfo.imageLinks?.small ||
+  const imageSrc = 
                    volumeInfo.imageLinks?.thumbnail ||
                    'https://via.placeholder.com/128x195?text=No+Image';
 

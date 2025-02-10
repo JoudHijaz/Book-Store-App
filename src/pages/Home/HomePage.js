@@ -1,10 +1,10 @@
+// src/pages/Home/HomePage.js
 import React, { useState, useEffect, useCallback, useRef, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import BookContainer from '../../containers/BookContainer/BookContainer';
 import { fetchBooks } from '../utils/api';
 import './HomePage.css';
-
 
 const HomePage = () => {
   const location = useLocation();
@@ -15,51 +15,52 @@ const HomePage = () => {
   const [query, setQuery] = useState(urlQuery);
   const [startIndex, setStartIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  
-  // Create a ref for the sentinel element used by Intersection Observer
+
+  // Create a ref for the sentinel element used by the Intersection Observer
   const sentinelRef = useRef(null);
 
-  // Update local state if the URL query changes
+  // When the URL query changes, reset the state
   useEffect(() => {
     setQuery(urlQuery);
     setBooks([]);
     setStartIndex(0);
   }, [urlQuery]);
 
-  
+  // Function to load books from the API
   const loadBooks = useCallback(async () => {
     setLoading(true);
     try {
       const result = await fetchBooks(query, startIndex);
       setBooks(prevBooks => [...prevBooks, ...result.items]);
-      // Optionally, use result.totalItems or result.queryUsed for additional logic or display
     } catch (error) {
       console.error('Error fetching books:', error);
     } finally {
       setLoading(false);
     }
   }, [query, startIndex]);
-  
-  // Load books when the component mounts and whenever query or startIndex changes
+
+  // Load books initially and whenever query or startIndex changes
   useEffect(() => {
     loadBooks();
   }, [loadBooks]);
 
-  // Use IntersectionObserver to implement infinite scroll
+  // Set up Intersection Observer to trigger loading before reaching the bottom
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // Trigger loading if the sentinel is within 200px of the viewport
           if (entry.isIntersecting && !loading) {
-            // When the sentinel is visible, increment the startIndex to load more books
-            setStartIndex((prevIndex) => prevIndex + 10);
+            setStartIndex(prevIndex => prevIndex + 10);
           }
         });
       },
       {
-        root: null, // observing within the viewport
-        rootMargin: '0px',
-        threshold: 1.0,
+        root: null,
+        // Trigger when the sentinel is within 200px of the viewport
+        rootMargin: '200px',
+        // A low threshold means even a little intersection will trigger the callback
+        threshold: 0,
       }
     );
 
@@ -67,7 +68,7 @@ const HomePage = () => {
       observer.observe(sentinelRef.current);
     }
 
-    // Cleanup: unobserve the sentinel element on component unmount
+    // Cleanup: Unobserve the sentinel element on component unmount
     return () => {
       if (sentinelRef.current) {
         observer.unobserve(sentinelRef.current);
@@ -84,7 +85,7 @@ const HomePage = () => {
       )}
       <BookContainer books={books} />
       {loading && <div className="loading">Loading...</div>}
-      
+      {/* Sentinel element to trigger infinite scroll */}
       <div ref={sentinelRef} className="sentinel"></div>
     </div>
   );

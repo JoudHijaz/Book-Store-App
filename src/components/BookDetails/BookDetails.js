@@ -1,3 +1,4 @@
+// src/components/BookDetail/BookDetail.js
 import React, { useContext, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -9,8 +10,7 @@ const BookDetail = ({ book }) => {
   const location = useLocation();
   const { volumeInfo } = book;
 
-  const imageSrc =
-    volumeInfo.imageLinks?.thumbnail;
+  const imageSrc = volumeInfo.imageLinks?.thumbnail;
 
   // State for controlling the purchase modal and loading spinner
   const [showModal, setShowModal] = useState(false);
@@ -22,20 +22,22 @@ const BookDetail = ({ book }) => {
     setShowModal(true);
   };
 
-  // Handler for confirming the purchase; removes the confirmation modal immediately
-  // then shows a 5-second loading spinner before completing the purchase.
+  // Handler for confirming the purchase.
+  // Instead of closing the modal immediately, keep it open and display the spinner overlay.
   const handleConfirmPurchase = () => {
-    setShowModal(false); // Remove confirmation modal from the DOM
     setBuyLoading(true);
+    // Simulate a 5-second purchase process while keeping the modal open.
     setTimeout(() => {
       const purchasedBooks = JSON.parse(localStorage.getItem('purchasedBooks')) || [];
       const bookToPurchase = { ...book, purchasedBy: user.email };
       purchasedBooks.push(bookToPurchase);
       localStorage.setItem('purchasedBooks', JSON.stringify(purchasedBooks));
       setBuyLoading(false);
+      setShowModal(false);
       alert('Book purchased successfully!');
     }, 5000);
   };
+
   // Handler for setting the rating when a star is clicked
   const handleRating = (newRating) => {
     setRating(newRating);
@@ -89,8 +91,9 @@ const BookDetail = ({ book }) => {
         <img src={imageSrc} alt={`Cover for ${volumeInfo.title}`} />
       )}
       <p>{volumeInfo.description || 'No Description Available.'}</p>
-         {/* Rating UI */}
-         <div className="rating">
+      
+      {/* Rating UI */}
+      <div className="rating">
         <p>Rate this book:</p>
         {[1, 2, 3, 4, 5].map((star) => (
           <span
@@ -106,24 +109,32 @@ const BookDetail = ({ book }) => {
           </span>
         ))}
       </div>
+      
       {/* Buy Button */}
       <button className="buy-button" onClick={handleBuyClick}>
         Buy
       </button>
 
-      {/* Display loading spinner during the purchase process */}
-      {buyLoading && <div className="spinner">Processing purchase...</div>}
-
       {/* Confirmation Modal */}
       {showModal && (
-        <div className="modal" onClick={() => setShowModal(false)}>
+        <div className="modal" onClick={() => !buyLoading && setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Confirm Purchase</h3>
-            <p>Are you sure you want to purchase this book?</p>
-            <div className="modal-actions">
-              <button onClick={handleConfirmPurchase}>Confirm</button>
-              <button onClick={() => setShowModal(false)}>Cancel</button>
-            </div>
+            {buyLoading ? (
+              // Display spinner overlay inside the modal while processing the purchase
+              <div className="loading-overlay">
+                <div className="spinner"></div>
+                <p>Processing purchase...</p>
+              </div>
+            ) : (
+              <>
+                <h3>Confirm Purchase</h3>
+                <p>Are you sure you want to purchase this book?</p>
+                <div className="modal-actions">
+                  <button onClick={handleConfirmPurchase}>Confirm</button>
+                  <button onClick={() => setShowModal(false)}>Cancel</button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

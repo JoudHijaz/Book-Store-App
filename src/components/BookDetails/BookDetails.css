@@ -99,40 +99,8 @@
 .join-buttons button:hover {
   opacity: 0.9;
 }
-/* Loading Spinner Overlay */
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
 
-/* Animated Spinner */
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 6px solid #ddd;
-  border-top: 6px solid #28a745;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 10px;
-  font-size: 16px;
-  color: #555;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Modal Styles (unchanged) */
+/* Modal Styles */
 .modal {
   position: fixed;
   top: 0;
@@ -153,6 +121,32 @@
   width: 90%;
   border-radius: 4px;
   text-align: center;
+  position: relative;
+}
+
+/* Loading Spinner Overlay inside the Modal */
+.loading-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #ddd;
+  border-top: 6px solid #28a745;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .modal-actions {
@@ -182,7 +176,7 @@
   opacity: 0.9;
 }
 
-/* Buy Button Styles (unchanged) */
+/* Buy Button Styles */
 .buy-button {
   padding: 10px 20px;
   margin: 20px 0;

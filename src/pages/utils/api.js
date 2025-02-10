@@ -1,4 +1,3 @@
-// src/utils/api.js
 
 // List of topics to choose from if no query is provided
 const randomTopics = [
