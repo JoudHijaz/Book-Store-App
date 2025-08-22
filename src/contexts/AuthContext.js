@@ -5,13 +5,18 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Mock login functionality
-  const MOCK_EMAIL = 'test@example.com';
-  const MOCK_PASSWORD = 'password';
+  // Array of mock users for testing
+  const mockUsers = [
+    { email: 'test@example.com', password: 'password' },
+    { email: 'user2@example.com', password: 'password2' }
+  ];
 
   const login = (email, password) => {
-    if (email === MOCK_EMAIL && password === MOCK_PASSWORD) {
-      setUser({ email });
+    const foundUser = mockUsers.find(
+      (u) => u.email === email && u.password === password
+    );
+    if (foundUser) {
+      setUser({ email: foundUser.email });
       return true;
     }
     return false;

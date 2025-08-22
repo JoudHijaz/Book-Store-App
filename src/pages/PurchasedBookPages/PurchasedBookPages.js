@@ -11,8 +11,7 @@ const PurchasedBookPages = () => {
   useEffect(() => {
     // Retrieve all purchased books from local storage
     const allPurchased = JSON.parse(localStorage.getItem('purchasedBooks')) || [];
-    // If a user is logged in (or using a guest account with an email),
-    // filter the books assigned to that user.
+   
     if (user && user.email) {
       const userBooks = allPurchased.filter(
         (book) => book.purchasedBy === user.email
