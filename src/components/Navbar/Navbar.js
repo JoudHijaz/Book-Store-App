@@ -9,7 +9,8 @@ const Navbar = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Your search submit logic here
+    // do the logic here 
+    // path for the serach 
   };
 
   return (
