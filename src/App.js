@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './pages/Home/HomePage';
@@ -12,16 +12,21 @@ import './global.css';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Navbar /> {/* Navbar appears on all pages */}
+      <>
+        <Navbar />
         <Routes>
+          {/* Ensure the initial #/ hits Home */}
+          <Route index element={<HomePage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/book/:id" element={<BookPage />} />
           <Route path="/purchased" element={<PurchasedBookPages />} />
-          <Route path="*" element={<NotFoundPage />} /> {/* Catch-all route */}
+          {/* Either redirect unknown paths to Home... */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* ...or use your NotFoundPage instead:
+             <Route path="*" element={<NotFoundPage />} /> */}
         </Routes>
-      </Router>
+      </>
     </AuthProvider>
   );
 }
